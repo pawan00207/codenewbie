@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Best Online Food Delivery Service in India | MyOnlineMeal.com</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" media="screen and (max-width: 1170px)" href="phone.css">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Bree+Serif&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav id="navbar">
+        <div id="logo">
+            <img src="logo.png" alt="MyOnlineMeal Logo">
+        </div>
+        <ul>
+            <li class="item"><a href="#home">Home</a></li>
+            <li class="item"><a href="#services-container">Services</a></li>
+            <li class="item"><a href="#client-section">Our Clients</a></li>
+            <li class="item"><a href="#contact">Contact Us</a></li>
+        </ul>
+        <li><a href="order-together.html">Order Together</a></li>
+    </nav>
+    <a href="reverse-bidding.html">
+        <button style="padding: 10px 20px; font-size: 18px; background: #28a745; color: white; border: none; cursor: pointer;">
+            Get Best Deals 💰
+        </button>
+    </a>
+    <a href="mood-food.html">
+        <button style="padding: 10px 20px; font-size: 18px; background: #ffcc00; color: black; border: none; cursor: pointer;">
+            Mood-Based Food 🍽️
+        </button>
+    </a>
+    <p id="paymentReminder" style="color: red;"></p>
+
+    <!-- Midnight Discount Popup -->
+    <div id="midnightPopup" class="popup">
+        <div class="popup-content">
+            <h2>🌙 Midnight Hunger?</h2>
+            <p>You're up late! Enjoy a <b>20% discount</b> on your order. 🍔</p>
+            <button onclick="claimDiscount()">Claim Now</button>
+            <button onclick="closePopup()">No, Thanks</button>
+        </div>
+    </div>
+
+    <div class="food-swap-box">
+        <h2>🔄 Food Swap: Trade Your Meal Item</h2>
+        <p>Select an item to swap and find a match!</p>
+
+        <label for="unwanted-item">I don't want:</label>
+        <select id="unwanted-item">
+            <option value="fries">Fries</option>
+            <option value="salad">Salad</option>
+            <option value="coke">Coke</option>
+            <option value="burger">Burger</option>
+        </select>
+
+        <label for="wanted-item">I prefer:</label>
+        <select id="wanted-item">
+            <option value="salad">Salad</option>
+            <option value="fries">Fries</option>
+            <option value="juice">Juice</option>
+            <option value="wrap">Wrap</option>
+        </select>
+
+        <button onclick="submitSwap()">Find a Swap 🔄</button>
+        <p id="swap-message" class="message"></p>
+    </div>
+
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:first-of-type {
+            background: #28a745;
+            color: white;
+        }
+
+        button:last-of-type {
+            background: #ff4747;
+            color: white;
+        }
+    </style>
+
+    <script>
+        function checkMidnightHunger() {
+            let currentHour = new Date().getHours();
+            let lastVisit = localStorage.getItem("lastMidnightVisit");
+
+            // Show popup if it's between 12 AM - 3 AM and hasn't been shown today
+            if (currentHour >= 0 && currentHour <= 3) {
+                if (!lastVisit || new Date(lastVisit).getDate() !== new Date().getDate()) {
+                    document.getElementById("midnightPopup").style.display = "flex";
+                    localStorage.setItem("lastMidnightVisit", new Date());
+                }
+            }
+        }
+
+        function claimDiscount() {
+            alert("✅ Discount Applied! Enjoy 20% off your meal. 🍕");
+            closePopup();
+        }
+
+        function closePopup() {
+            document.getElementById("midnightPopup").style.display = "none";
+        }
+
+        checkMidnightHunger();
+    </script>
+
+    <script>
+        let pendingPayment = localStorage.getItem("pendingPayment");
+        if (pendingPayment) {
+            document.getElementById("paymentReminder").innerText = `⚠️ You have ₹${pendingPayment} pending. Pay before your next order!`;
+        }
+    </script>
+
+    <center>
+        <p><strong><b style="font-size: 24px;">Food Suggestions</b></strong></p>
+    </center>
+
+    <center>
+        <button onclick="window.location.href='food-suggestion.html'" style="font-size: 30px; margin-bottom: 30px;">Get Food Suggestions</button>
+    </center>
+
+    <section id="home">
+        <h1 class="h-primary">Welcome to MyOnlineMeal</h1>
+        <p>Craving something tasty? Order now and enjoy restaurant-quality food at home!</p>
+        <input type="text" id="searchBox" placeholder="Search for food...">
+        <a href="checkout.html">
+            <button style="padding: 10px 20px; font-size: 18px; background: #ffcc00; color: black; border: none; cursor: pointer;">
+                Order Now 🛒
+            </button>
+        </a>
+    </section>
+
+    <section id="services-container">
+        <center>
+            <h1 class="h-primary center">Our Services</h1>
+        </center>
+        <div id="services">
+            <div class="box" data-name="Food Catering">
+                <img src="food catering.jpg" alt="Food Catering Service">
+                <h2 class="h-secondary center">Food Catering</h2>
+                <p class="center">We provide high-quality food catering services for events, ensuring delicious meals and excellent service.</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="box" data-name="Food Ordering">
+                <img src="bicycle-7900268_1280.jpg" alt="Food Ordering Service">
+                <h2 class="h-secondary center">Food Ordering</h2>
+                <p class="center">Order your favorite meals online with quick delivery and a wide range of cuisines available.</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="box" data-name="Bulk Ordering">
+                <img src="bulk ordering2.png" alt="Bulk Ordering Service">
+                <h2 class="h-secondary center">Bulk Ordering</h2>
+                <p class="center">We offer bulk ordering services for corporate and group events at competitive prices.</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+        <h3 style="font-size: 28px; font-weight: bold; margin-left: 530px; margin-top: 10px;">🎙 Voice Order Feature</h3>
+        <p style="margin-left: 530px;">Click the button and say your food order.</p>
+
+        <input type="text" id="orderInput" placeholder="Your order will appear here..." readonly style="margin-left: 100px; margin-top: 20px;">
+        <br>
+        <button onclick="startListening()" style="margin-left: 600px;">🎤 Speak Your Order</button>
+        <div id="confirmation"></div>
+    </section>
+
+    <section id="cart-section">
+        <h1 class="h-primary center">Your Cart</h1>
+        <ul id="cart"></ul>
+        <p>Total Price: <span id="totalPrice">$0</span></p>
+    </section>
+    <ul id="cartItems"></ul>
+
+    <section id="client-section">
+        <h1 class="h-primary center">Our Clients</h1>
+        <div id="clients">
+            <div class="client-item">
+                <img src="google.png" alt="Google Logo">
+            </div>
+            <div class="client-item">
+                <img src="microsoft.png" alt="Microsoft Logo">
+            </div>
+            <div class="client-item">
+                <img src="skype.png" alt="Skype Logo">
+            </div>
+            <div class="client-item">
+                <img src="apple.jpg" alt="Apple Logo">
+            </div>
+            <div class="client-item">
+                <img src="Swiggy_logo.png" alt="Swiggy Logo">
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h1 class="h-primary center">Contact Us</h1>
+        <div id="contact-box">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name: </label>
+                    <input type="text" name="name" id="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message: </label>
+                    <textarea name="message" id="message" cols="30" rows="5" placeholder="Enter your message" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number: </label>
+                    <input type="tel" name="phone" id="phone" placeholder="Enter your phone number" required>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="chatbox" class="chatbox">
+        <h2>Food Bot AI</h2>
+        <div id="messages" class="messages"></div>
+        <input type="text" id="userInput" placeholder="Ask me about food!" />
+        <button id="sendButton">Send</button>
+    </div>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let message = document.getElementById("message").value.trim();
+
+            if (name === "" || email === "" || message === "") {
+                alert("All fields are required!");
+                return;
+            }
+
+            if (!email.includes("@") || !email.includes(".")) {
+                alert("Please enter a valid email address!");
+                return;
+            }
+
+            alert("Thank you for contacting us! We will get back to you soon.");
+            this.reset();
+        });
+
+        // Voice Order Functionality
+        function startListening() {
+            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = 'en-US';
+                recognition.start();
+
+                recognition.onresult = function (event) {
+                    let orderText = event.results[0][0].transcript;
+                    document.getElementById("orderInput").value = orderText;
+
+                    // Confirmation message
+                    document.getElementById("confirmation").innerHTML =
+                        `<p>✅ You said: <strong>${orderText}</strong></p>
+                         <button onclick="confirmOrder()">✔ Confirm Order</button>`;
+                };
+
+                recognition.onerror = function (event) {
+                    alert("Error: " + event.error);
+                };
+            } else {
+                alert("Sorry, your browser does not support speech recognition.");
+            }
+        }
+
+        function confirmOrder() {
+            let orderInput = document.getElementById("orderInput");
+            let confirmedOrder = orderInput.value;
+
+            if (confirmedOrder.trim() === "") {
+                alert("No order detected.");
+                return;
+            }
+
+            // Add order to cart
+            let cart = document.getElementById("cartItems");
+            let listItem = document.createElement("li");
+            listItem.textContent = confirmedOrder;
+            cart.appendChild(listItem);
+
+            // Show success message
+            alert("✅ Order Confirmed: " + confirmedOrder);
+
+            // Clear input and confirmation message
+            orderInput.value = "";
+            document.getElementById("confirmation").innerHTML = "";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+    const messages = document.getElementById("messages");
+    const userInput = document.getElementById("userInput");
+    const sendButton = document.getElementById("sendButton");
+
+    const responses = {
+        "hello": "Hi! How can I help you with food orders? 😊",
+        "how are you": "I'm just a bot, but I'm doing great! How about you?",
+        "pizza": "We have Pepperoni, Margherita, and BBQ Chicken pizza! 🍕",
+        "burger": "Try our delicious Cheeseburger or Veggie Burger! 🍔",
+        "pasta": "We serve Alfredo, Bolognese, and Pesto pasta! 🍝",
+        "thank you": "You're welcome! Enjoy your meal! 🍽",
+        "bye": "Goodbye! Have a great day! 👋"
+    };
+
+    function getResponse(userInput) {
+        userInput = userInput.toLowerCase().trim();
+        return responses[userInput] || "Sorry, I don't understand that. 😕";
+    }
+
+    function sendMessage() {
+        const userText = userInput.value.trim();
+        if (userText === "") return;
+
+        // Append user message
+        const userMessage = document.createElement("p");
+        userMessage.innerHTML = `<b>You:</b> ${userText}`;
+        messages.appendChild(userMessage);
+
+        // Get bot response
+        const botResponse = getResponse(userText);
+
+        // Append bot message
+        const botMessage = document.createElement("p");
+        botMessage.innerHTML = `<b>Bot:</b> ${botResponse}`;
+        messages.appendChild(botMessage);
+
+        // Scroll to bottom
+        messages.scrollTop = messages.scrollHeight;
+
+        // Clear input field
+        userInput.value = "";
+    }
+
+    sendButton.addEventListener("click", sendMessage);
+    userInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    });
+});
+
+        // Swap functionality
+        function submitSwap() {
+            const unwantedItem = document.getElementById('unwanted-item').value;
+            const wantedItem = document.getElementById('wanted-item').value;
+            const message = document.getElementById('swap-message');
+
+            if (unwantedItem === wantedItem) {
+                message.innerText = "❗ You cannot swap an item for the same item.";
+                message.style.color = "red";
+            } else {
+                message.innerText = `✅ Swap request placed: "${unwantedItem}" for "${wantedItem}".`;
+                message.style.color = "green";
+            }
+        }
+    </script>
+
+    <footer>
+        <div class="center">
+            Copyright &copy; 2025 www.MyOnlineMeal.com. All rights reserved!
+        </div>
+    </footer>
+</body>
+</html>
